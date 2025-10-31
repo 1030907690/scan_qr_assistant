@@ -1,36 +1,154 @@
 <template>
-	<view>
-		<image class="logo" src="/static/logo.png"></image>
-		<text class="title">{{title}}</text>
+	<view class="container" :style="containerStyle">
+		<view class="gateway_url_box">
+			<input class="gateway_class" :value="gateway" placeholder="请输入服务地址" />
+			<button class="check_btn" @click="checkServer">检测</button>
+		</view>
+
+		<view class="qr_box">
+			<camera class="qr_camera" :style="cameraStyle" :resolution="'high'" :mode="'scanCode'" @scancode="handleScanCode">
+			</camera>
+			<!-- <view class="camera-scan-code-back-wrap">
+				<button type="default" @click="navigateBack">返回正常模式</button>
+			</view> -->
+			<view class="camera-scan-code-table">
+				<!-- <view class="camera-scan-code-table-pair">
+					<view class="camera-scan-code-table-pair-label">
+						<text>类型</text>
+					</view>
+					<view class="camera-scan-code-table-pair-value">
+						<text>{{ result?.type}}</text>
+					</view>
+				</view> -->
+
+				<view class="camera-scan-code-table-pair camera-scan-code-table-top-line">
+					<view class="camera-scan-code-table-pair-label">
+						<text>结果</text>
+					</view>
+					<view class="camera-scan-code-table-pair-value">
+						<text>{{ result?.result }}</text>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				title: 'Hello'
-			}
-		},
-		onLoad() {
+<script setup lang="uts">
+	type CameraScanCodeResult = {
+		type : string | null;
+		result : string | null;
+	}
 
-		},
-		methods: {
+	let result = ref<CameraScanCodeResult>({ type: null, result: null })
 
+	let containerStyle = 'top:' + uni.getSystemInfoSync().statusBarHeight + 'px';
+
+	let cameraStyle = {
+		'height': (uni.getSystemInfoSync().screenHeight - 350) + 'px'
+	}
+
+	let gateway = ref<string>("http://192.168.")
+
+	let scanQr = ref('')
+
+
+	onReady(() => {
+		console.log("onReady")
+	})
+
+	const checkServer = () => {
+		console.log("检测服务器")
+	}
+
+	const handleScanCode = (ev : UniCameraScanCodeEvent) => {
+		const deatil = ev.detail;
+		result.value = {
+			type: deatil.type,
+			result: deatil.result
 		}
 	}
 </script>
 
-<style>
-	.logo {
-		height: 100px;
-		width: 100px;
-		margin: 100px auto 25px auto;
-	}
+<style lang="scss">
+	.container {
+		width: 750rpx;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		position: relative;
 
-	.title {
-		font-size: 18px;
-		color: #8f8f94;
-    text-align: center;
+		.gateway_url_box {
+			display: flex;
+			flex-direction: row;
+			position: relative;
+			justify-content: center;
+			margin-top: 50rpx;
+			height: 100rpx;
+
+			.gateway_class {
+				width: 450rpx;
+				height: 100rpx;
+				border: 1rpx solid #42b983;
+				border-radius: 5rpx;
+
+			}
+
+			.check_btn {
+				width: 150rpx;
+			}
+		}
+
+		.qr_box {
+			// border: 1px solid red;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			position: relative;
+			top: 50rpx;
+
+			.qr_camera {
+				width: 750rpx;
+				// height: 800rpx;
+			}
+		}
+
+
+
+		.camera-scan-code-back-wrap {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.camera-scan-code-table {
+			background-color: white;
+			margin-top: 20px;
+		}
+
+		.camera-scan-code-table-pair {
+			height: 50px;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.camera-scan-code-table-pair-label {
+			flex-grow: 1;
+			margin-left: 15px;
+
+		}
+
+		.camera-scan-code-table-pair-value {
+			flex-grow: 2;
+
+		}
+
+		.camera-scan-code-table-top-line {
+			border-top: 1px solid #eee;
+		}
+
+
+
 	}
 </style>
