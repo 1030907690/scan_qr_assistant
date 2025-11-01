@@ -2,11 +2,12 @@
 	<view class="container" :style="containerStyle">
 		<view class="gateway_url_box">
 			<input class="gateway_class" :value="gateway" placeholder="请输入服务地址" />
-			<button class="check_btn" @click="checkServer">检测</button>
+			<!-- <button class="check_btn" @click="checkServer">检测</button> -->
 		</view>
 
 		<view class="qr_box">
-			<camera class="qr_camera" :style="cameraStyle" :resolution="'high'" :mode="'scanCode'" @scancode="handleScanCode">
+			<camera class="qr_camera" flash="auto" :style="cameraStyle" :resolution="'high'" :mode="'scanCode'"
+				@scancode="handleScanCode">
 			</camera>
 			<!-- <view class="camera-scan-code-back-wrap">
 				<button type="default" @click="navigateBack">返回正常模式</button>
@@ -51,7 +52,9 @@
 	let gateway = ref<string>("http://192.168.")
 
 	let scanQr = ref('')
-
+	
+	let innerAudio = uni.createInnerAudioContext()
+	innerAudio!.src = '/static/ding.mp3'
 
 	onReady(() => {
 		console.log("onReady")
@@ -61,12 +64,18 @@
 		console.log("检测服务器")
 	}
 
+	const playInnerMusic = () => {
+
+		innerAudio!.play()
+	}
+
 	const handleScanCode = (ev : UniCameraScanCodeEvent) => {
 		const deatil = ev.detail;
 		result.value = {
 			type: deatil.type,
 			result: deatil.result
 		}
+		playInnerMusic()
 	}
 </script>
 
