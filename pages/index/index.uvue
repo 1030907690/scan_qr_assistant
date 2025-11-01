@@ -27,7 +27,7 @@
 						<text>结果</text>
 					</view>
 					<view class="camera-scan-code-table-pair-value">
-						<text>{{ result?.result }}</text>
+						<text>{{ result.result }}</text>
 					</view>
 				</view>
 			</view>
@@ -41,7 +41,7 @@
 		result : string | null;
 	}
 
-	let result = ref<CameraScanCodeResult>({ type: null, result: null })
+	let result = ref<CameraScanCodeResult>({ type: null, result: ''})
 
 	let containerStyle = 'top:' + uni.getSystemInfoSync().statusBarHeight + 'px';
 
@@ -49,10 +49,11 @@
 		'height': (uni.getSystemInfoSync().screenHeight - 350) + 'px'
 	}
 
-	let gateway = ref<string>("http://192.168.")
+	// let gateway = ref<string>("http://192.168.")
+	let gateway = ref<string>("http://192.168.39.166:8848")
 
 	let scanQr = ref('')
-	
+
 	let innerAudio = uni.createInnerAudioContext()
 	innerAudio!.src = '/static/ding.mp3'
 
@@ -65,8 +66,24 @@
 	}
 
 	const playInnerMusic = () => {
-
 		innerAudio!.play()
+	}
+
+	const sendData = (data : CameraScanCodeResult) => {
+		
+		uni.request({
+			url: gateway.value + "/sn=" + data.result,
+			method: "GET",
+			timeout: 6000,
+			sslVerify: false,
+			withCredentials: false,
+			firstIpv4: false,
+			success: (res) => {
+				console.log("res " , res)
+			},
+			fail: (res) => {
+			},
+		});
 	}
 
 	const handleScanCode = (ev : UniCameraScanCodeEvent) => {
@@ -76,6 +93,11 @@
 			result: deatil.result
 		}
 		playInnerMusic()
+
+		sendData({
+			type: deatil.type,
+			result: deatil.result
+		} as CameraScanCodeResult)
 	}
 </script>
 
