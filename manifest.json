@@ -1,5 +1,5 @@
 {
-	"name": "scan_qr_assistant",
+	"name": "扫码助手",
 	"appid": "__UNI__8CA1A0B",
 	"description": "",
 	"versionName": "1.0.0",
@@ -59,6 +59,11 @@
 			"modules": {},
 			"icons": {},
 			"splashScreens": {}
+		}
+	},
+	"web": {
+		"router": {
+			"mode": ""
 		}
 	}
 }
