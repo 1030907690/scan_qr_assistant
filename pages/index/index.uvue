@@ -82,6 +82,9 @@
 				console.log("res " , res)
 			},
 			fail: (res) => {
+				uni.showToast({
+					title:'发送数据失败，请检测服务器地址'
+				})
 			},
 		});
 	}
