@@ -72,7 +72,7 @@
 	const sendData = (data : CameraScanCodeResult) => {
 		
 		uni.request({
-			url: gateway.value + "/sn=" + data.result,
+			url: gateway.value + "/mock_input?sn=" + data.result,
 			method: "GET",
 			timeout: 6000,
 			sslVerify: false,
