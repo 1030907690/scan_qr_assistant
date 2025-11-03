@@ -42,7 +42,9 @@
 	},
 	"app-android": {
 		"distribute": {
-			"modules": {},
+			"modules": {
+				 "uni-barcode-scanning" : {}  
+			},
 			"icons": {
 				"hdpi": "",
 				"xhdpi": "",
@@ -51,7 +53,8 @@
 			},
 			"splashScreens": {
 				"default": {}
-			}
+			},
+			"permissions": ""
 		}
 	},
 	"app-ios": {
