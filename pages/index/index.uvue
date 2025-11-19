@@ -83,6 +83,7 @@
 			},
 			fail: (res) => {
 				uni.showToast({
+					icon: "error",
 					title:'发送数据失败，请检测服务器地址'
 				})
 			},
