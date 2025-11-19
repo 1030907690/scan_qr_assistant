@@ -1,7 +1,7 @@
 <template>
 	<view class="container" :style="containerStyle">
 		<view class="gateway_url_box">
-			<input class="gateway_class" :value="gateway" placeholder="请输入服务地址" />
+			<input class="gateway_class" v-model="gateway" placeholder="请输入服务地址" />
 			<!-- <button class="check_btn" @click="checkServer">检测</button> -->
 		</view>
 
